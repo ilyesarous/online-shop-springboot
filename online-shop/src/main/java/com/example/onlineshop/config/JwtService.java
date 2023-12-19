@@ -39,7 +39,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                //.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -47,11 +47,11 @@ public class JwtService {
     //validate token eli tgenera teba3 user details hekom wala
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUserName(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()); // && !isTokenExpired(token)
     }
-    private boolean isTokenExpired(String token) {
+    /*private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
-    }
+    }*/
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
